@@ -1,0 +1,13 @@
+{
+  "appId": "com.blockfever.app",
+  "appName": "Block Fever",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "AdMob": {
+      "appId": "ca-app-pub-4718076434751586~6087564685"
+    }
+  }
+}

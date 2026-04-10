@@ -1,0 +1,17 @@
+{
+  "name": "block-fever",
+  "version": "1.0.0",
+  "description": "Neon-colored block breaker game",
+  "main": "www/index.html",
+  "scripts": {
+    "start": "npx serve www",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor-community/admob": "^6.0.0"
+  }
+}
