@@ -439,7 +439,7 @@ function update(dt) {
     }
   } else if (game.screen === SCREEN.STAGE_CLEAR) {
     game.stageClearTimer -= dt;
-    if (game.stageClearTimer <= 0) {
+    if (game.stageClearTimer <= 0 && !isFading()) {
       startFade(() => { nextStage(); game.screen = SCREEN.PLAYING; }, null);
     }
   } else if (game.screen === SCREEN.GAME_OVER) {
