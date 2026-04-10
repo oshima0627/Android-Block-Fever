@@ -182,6 +182,19 @@ function activatePowerUp(type) {
   }
 }
 
+function enforceMinAngle(ball) {
+  const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+  if (speed === 0) return;
+  const minVyRatio = 0.35;
+  const absVyRatio = Math.abs(ball.vy) / speed;
+  if (absVyRatio < minVyRatio) {
+    const sign = ball.vy >= 0 ? 1 : -1;
+    ball.vy = sign * speed * minVyRatio;
+    const remainX = Math.sqrt(speed * speed - ball.vy * ball.vy);
+    ball.vx = (ball.vx >= 0 ? 1 : -1) * remainX;
+  }
+}
+
 function updatePaddle(dt) {
   const keys = getKeysDown();
   const paddle = game.paddle;
@@ -221,11 +234,13 @@ function updateBalls(dt) {
     if (ball.x - ball.r < 0) {
       ball.x = ball.r;
       ball.vx = Math.abs(ball.vx);
+      enforceMinAngle(ball);
       playSound('wall');
     }
     if (ball.x + ball.r > w) {
       ball.x = w - ball.r;
       ball.vx = -Math.abs(ball.vx);
+      enforceMinAngle(ball);
       playSound('wall');
     }
     if (ball.y - ball.r < 0) {
@@ -246,11 +261,12 @@ function updateBalls(dt) {
         paddle.x, paddle.y, paddle.w, paddle.h)) {
       ball.y = paddle.y - ball.r;
       const relativeHit = ((ball.x - paddle.x) / paddle.w) * 2 - 1;
-      const clampedHit = Math.max(-0.95, Math.min(0.95, relativeHit));
-      const angle = clampedHit * Math.PI / 3;
+      const clampedHit = Math.max(-0.9, Math.min(0.9, relativeHit));
+      const angle = clampedHit * (Math.PI * 50 / 180);
       const currentSpeed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
       ball.vx = currentSpeed * Math.sin(angle);
       ball.vy = -currentSpeed * Math.cos(angle);
+      enforceMinAngle(ball);
       game.combo = 0;
       playSound('paddle');
     }
@@ -275,6 +291,7 @@ function updateBalls(dt) {
         ball.vy = Math.abs(ball.vy) * (dy > 0 ? 1 : -1);
         ball.y += (dy > 0 ? overlapY : -overlapY) * 0.5;
       }
+      enforceMinAngle(ball);
 
       block.hp--;
       if (block.hp <= 0) {

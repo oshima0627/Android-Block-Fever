@@ -108,7 +108,7 @@ export function initDimensions(game) {
   game.paddle.baseW = paddleW;
   game.paddle.w = game.activePowers.wide > 0 ? paddleW * 1.5 : paddleW;
   game.paddle.h = paddleH;
-  game.paddle.y = h - 60 - paddleH - 20;
+  game.paddle.y = h * 0.78;
   if (game.paddle.x === 0) {
     game.paddle.x = w / 2 - game.paddle.w / 2;
     game.paddle.targetX = game.paddle.x;
