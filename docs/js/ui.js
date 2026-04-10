@@ -216,7 +216,7 @@ export function getTitleStartButton(w, h) {
   };
 }
 
-export function drawStageClear(ctx, w, h, stage, bonus, timer) {
+export function drawStageClear(ctx, w, h, stage, bonus, timer, stageName) {
   ctx.save();
 
   const alpha = Math.min(timer * 2, 1);
@@ -232,8 +232,17 @@ export function drawStageClear(ctx, w, h, stage, bonus, timer) {
   ctx.shadowColor = '#06d6a0';
   ctx.shadowBlur = 15;
   ctx.fillStyle = '#06d6a0';
-  ctx.fillText(`STAGE ${stage} CLEAR!`, w / 2, h * 0.4);
+  ctx.fillText(`STAGE ${stage} CLEAR!`, w / 2, h * 0.37);
   ctx.shadowBlur = 0;
+
+  if (stageName) {
+    const nameSize = Math.max(w * 0.045, 15);
+    ctx.font = `${nameSize}px Arial`;
+    ctx.fillStyle = '#ffffff';
+    ctx.globalAlpha = alpha * 0.7;
+    ctx.fillText(`\u300E${stageName}\u300F`, w / 2, h * 0.44);
+    ctx.globalAlpha = alpha;
+  }
 
   const bonusSize = Math.max(w * 0.045, 15);
   ctx.font = `${bonusSize}px Arial`;

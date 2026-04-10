@@ -29,38 +29,172 @@ export const BLOCK_COLORS = [
 export const COLS = 8;
 export const BLOCK_GAP = 4;
 
+const STAGE_PATTERNS = [
+  { name: 'フルブロック',
+    grid: [
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,3,3,1,1,1],
+    ]},
+  { name: 'ダイヤモンド',
+    grid: [
+      [0,0,0,1,1,0,0,0],
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,1,1,1,1,0],
+      [1,1,1,3,3,1,1,1],
+      [0,1,1,1,1,1,1,0],
+      [0,0,1,1,1,1,0,0],
+      [0,0,0,1,1,0,0,0],
+    ]},
+  { name: 'ピラミッド',
+    grid: [
+      [0,0,0,3,3,0,0,0],
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,1,1,1,1,0],
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1],
+    ]},
+  { name: 'ハート',
+    grid: [
+      [0,1,1,0,0,1,1,0],
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,3,3,1,1,1],
+      [0,1,1,1,1,1,1,0],
+      [0,0,1,1,1,1,0,0],
+      [0,0,0,1,1,0,0,0],
+    ]},
+  { name: 'クロス',
+    grid: [
+      [0,0,1,1,1,1,0,0],
+      [0,0,1,3,3,1,0,0],
+      [1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1],
+      [0,0,1,3,3,1,0,0],
+      [0,0,1,1,1,1,0,0],
+    ]},
+  { name: 'V字',
+    grid: [
+      [1,1,0,0,0,0,1,1],
+      [1,1,0,0,0,0,1,1],
+      [0,1,1,0,0,1,1,0],
+      [0,1,1,0,0,1,1,0],
+      [0,0,1,1,1,1,0,0],
+      [0,0,0,3,3,0,0,0],
+    ]},
+  { name: 'アーチ',
+    grid: [
+      [0,1,1,1,1,1,1,0],
+      [1,1,1,1,1,1,1,1],
+      [1,1,0,0,0,0,1,1],
+      [1,3,0,0,0,0,3,1],
+      [1,1,0,0,0,0,1,1],
+    ]},
+  { name: 'ウェーブ',
+    grid: [
+      [1,1,0,0,0,0,1,1],
+      [0,1,1,0,0,1,1,0],
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,3,3,1,1,0],
+      [1,1,0,0,0,0,1,1],
+      [0,1,1,0,0,1,1,0],
+      [0,0,1,1,1,1,0,0],
+    ]},
+  { name: 'ジグザグ',
+    grid: [
+      [1,1,1,0,0,0,0,0],
+      [0,0,1,1,1,0,0,0],
+      [0,0,0,0,1,1,1,0],
+      [0,0,0,0,0,0,1,1],
+      [0,0,0,0,1,1,3,0],
+      [0,0,1,1,1,0,0,0],
+      [1,1,1,0,0,0,0,0],
+    ]},
+  { name: 'フレーム',
+    grid: [
+      [1,1,1,1,1,1,1,1],
+      [1,3,0,0,0,0,3,1],
+      [1,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,1],
+      [1,3,0,0,0,0,3,1],
+      [1,1,1,1,1,1,1,1],
+    ]},
+  { name: 'チェッカー',
+    grid: [
+      [1,0,1,0,1,0,1,0],
+      [0,1,0,1,0,1,0,1],
+      [1,0,3,0,1,0,3,0],
+      [0,1,0,1,0,1,0,1],
+      [1,0,1,0,1,0,1,0],
+      [0,1,0,1,0,1,0,1],
+    ]},
+  { name: 'ツインタワー',
+    grid: [
+      [1,1,0,0,0,0,1,1],
+      [1,1,0,0,0,0,1,1],
+      [1,1,0,0,0,0,1,1],
+      [1,3,0,0,0,0,3,1],
+      [1,1,0,0,0,0,1,1],
+      [1,1,1,0,0,1,1,1],
+      [1,1,1,1,1,1,1,1],
+    ]},
+  { name: '矢印',
+    grid: [
+      [0,0,0,1,1,0,0,0],
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,1,1,1,1,0],
+      [1,1,1,3,3,1,1,1],
+      [0,0,0,1,1,0,0,0],
+      [0,0,0,1,1,0,0,0],
+      [0,0,0,1,1,0,0,0],
+    ]},
+  { name: 'ウィング',
+    grid: [
+      [1,0,0,0,0,0,0,1],
+      [1,1,0,0,0,0,1,1],
+      [1,1,1,0,0,1,1,1],
+      [1,1,1,3,3,1,1,1],
+      [1,1,1,0,0,1,1,1],
+      [1,1,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,1],
+    ]},
+  { name: 'スマイル',
+    grid: [
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,1,1,1,1,0],
+      [1,1,3,1,1,3,1,1],
+      [1,1,1,1,1,1,1,1],
+      [1,3,1,1,1,1,3,1],
+      [0,1,1,3,3,1,1,0],
+      [0,0,1,1,1,1,0,0],
+    ]},
+];
+
 export function getDifficulty(stage) {
   if (stage <= 3) {
     return {
       speedMult: 1.0,
-      minRows: 3,
-      maxRows: 4,
       hardPercent: 0,
-      itemPercent: 0.15
+      itemExtra: 0.12
     };
   } else if (stage <= 6) {
     return {
       speedMult: 1.2,
-      minRows: 4,
-      maxRows: 5,
-      hardPercent: 0.20,
-      itemPercent: 0.10
+      hardPercent: 0.18,
+      itemExtra: 0.08
     };
   } else if (stage <= 9) {
     return {
       speedMult: 1.4,
-      minRows: 5,
-      maxRows: 6,
-      hardPercent: 0.35,
-      itemPercent: 0.08
+      hardPercent: 0.30,
+      itemExtra: 0.06
     };
   }
   return {
     speedMult: 1.5,
-    minRows: 6,
-    maxRows: 6,
-    hardPercent: 0.50,
-    itemPercent: 0.06
+    hardPercent: 0.45,
+    itemExtra: 0.04
   };
 }
 
@@ -115,10 +249,22 @@ export function initDimensions(game) {
   }
 }
 
+export function getPatternCount() {
+  return STAGE_PATTERNS.length;
+}
+
+export function getStageName(stage) {
+  const idx = (stage - 1) % STAGE_PATTERNS.length;
+  return STAGE_PATTERNS[idx].name;
+}
+
 export function generateBlocks(game) {
   const w = game.width;
   const diff = getDifficulty(game.stage);
-  const rows = diff.minRows + Math.floor(Math.random() * (diff.maxRows - diff.minRows + 1));
+  const patternIdx = (game.stage - 1) % STAGE_PATTERNS.length;
+  const pattern = STAGE_PATTERNS[patternIdx];
+  const grid = pattern.grid;
+  const rows = grid.length;
 
   const blockW = (w - (COLS + 1) * BLOCK_GAP) / COLS;
   const blockH = blockW * 0.38;
@@ -127,6 +273,9 @@ export function generateBlocks(game) {
   game.blocks = [];
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < COLS; c++) {
+      const cell = grid[r][c];
+      if (cell === 0) continue;
+
       const bx = BLOCK_GAP + c * (blockW + BLOCK_GAP);
       const by = topOffset + r * (blockH + BLOCK_GAP);
 
@@ -134,15 +283,19 @@ export function generateBlocks(game) {
       let hp = 1;
       let color = BLOCK_COLORS[(r + c) % BLOCK_COLORS.length];
 
-      const rand = Math.random();
-      if (rand < diff.hardPercent) {
-        type = BLOCK_TYPE.HARD;
-        hp = 2;
-        color = '#c0c0c0';
-      } else if (rand < diff.hardPercent + diff.itemPercent) {
+      if (cell === 3) {
         type = BLOCK_TYPE.ITEM;
-        hp = 1;
         color = '#ffd700';
+      } else {
+        const rand = Math.random();
+        if (rand < diff.hardPercent) {
+          type = BLOCK_TYPE.HARD;
+          hp = 2;
+          color = '#c0c0c0';
+        } else if (rand < diff.hardPercent + diff.itemExtra) {
+          type = BLOCK_TYPE.ITEM;
+          color = '#ffd700';
+        }
       }
 
       game.blocks.push({

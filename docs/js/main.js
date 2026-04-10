@@ -2,7 +2,8 @@ import {
   SCREEN, BLOCK_TYPE, POWERUP_TYPE,
   createGame, initDimensions, generateBlocks,
   createBall, resetBallToPaddle, launchBall,
-  getComboMultiplier, getBlockScore, saveHiScore, getDifficulty
+  getComboMultiplier, getBlockScore, saveHiScore, getDifficulty,
+  getStageName
 } from './state.js';
 import { initAudio, playSound } from './sound.js';
 import {
@@ -485,7 +486,7 @@ function render() {
     drawHUD(ctx, game);
 
     if (game.screen === SCREEN.STAGE_CLEAR) {
-      drawStageClear(ctx, w, h, game.stage, game.stageClearBonus, 2.5 - game.stageClearTimer);
+      drawStageClear(ctx, w, h, game.stage, game.stageClearBonus, 2.5 - game.stageClearTimer, getStageName(game.stage));
     }
 
     if (game.ballOnPaddle) {
@@ -498,6 +499,11 @@ function render() {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('TAP TO LAUNCH', w / 2, game.paddle.y - 40);
+      ctx.globalAlpha = 0.5;
+      const nameSize = Math.max(w * 0.035, 12);
+      ctx.font = `${nameSize}px Arial`;
+      ctx.fillStyle = '#ffe74c';
+      ctx.fillText(getStageName(game.stage), w / 2, game.paddle.y - 40 - fontSize - 4);
       ctx.globalAlpha = 1;
     }
   } else if (game.screen === SCREEN.GAME_OVER) {
